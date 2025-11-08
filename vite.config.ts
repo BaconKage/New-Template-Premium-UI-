@@ -11,11 +11,16 @@ export default defineConfig(({ mode }) => ({
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: [
-      // main @ alias
-      { find: "@", replacement: path.resolve(__dirname, "./src") },
-
-      // 👇 this one will match "@/components/ui" AND "@/components/ui/card" etc.
-      { find: "@/components/ui", replacement: path.resolve(__dirname, "./src/components/UI") },
+      // 👇 put the specific one FIRST
+      {
+        find: "@/components/ui",
+        replacement: path.resolve(__dirname, "./src/components/UI"),
+      },
+      // 👇 then the general @ alias
+      {
+        find: "@",
+        replacement: path.resolve(__dirname, "./src"),
+      },
     ],
   },
 }));
