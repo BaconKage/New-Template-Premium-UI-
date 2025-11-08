@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+
+      // 👇 this line fixes the Vercel error
+      "@/components/ui": path.resolve(__dirname, "./src/components/UI"),
     },
   },
 }));
