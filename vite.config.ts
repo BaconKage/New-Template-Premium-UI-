@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -11,11 +10,12 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    alias: [
+      // main @ alias
+      { find: "@", replacement: path.resolve(__dirname, "./src") },
 
-      // 👇 this line fixes the Vercel error
-      "@/components/ui": path.resolve(__dirname, "./src/components/UI"),
-    },
+      // 👇 this one will match "@/components/ui" AND "@/components/ui/card" etc.
+      { find: "@/components/ui", replacement: path.resolve(__dirname, "./src/components/UI") },
+    ],
   },
 }));
